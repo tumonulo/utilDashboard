@@ -3,7 +3,6 @@ const path = require('node:path')
 
 const { Client, GatewayIntentBits, Partials } = require('discord.js')
 const cors = require('cors')
-require('colors')
 
 const express = require('express')
 const app = express()
