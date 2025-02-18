@@ -4,17 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Personal</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../css/index.css">
 </head>
 <body>
     <div class="container">
-        <!-- Sección de Errores -->
+        <!-- Sección de Errores (Estática) -->
         <div class="error-section">
-            <h2>Errores y Notificaciones</h2>
-            <div class="error-list">
-                <div class="error-item">Error 1: Problema de conexión.</div>
-                <div class="error-item">Error 2: Tiempo de espera agotado.</div>
-                <div class="error-item">Error 3: Permisos insuficientes.</div>
+            <div class="error-output">
+                <div class="log-entry error">[ERROR] Problema de conexión.</div>
+                <div class="log-entry warning">[WARNING] Tiempo de espera agotado.</div>
+                <div class="log-entry info">[INFO] Sistema operativo estable.</div>
             </div>
         </div>
 
@@ -22,28 +21,42 @@
         <div class="app-section">
             <h2>Aplicaciones</h2>
             <div class="app-grid">
-                <div class="app-card">
+                <!-- Aplicación 1: Discord Clone -->
+                <div class="app-card" onclick="openApp('Discord')">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord">
                     <h3>Discord Clone</h3>
-                    <p>Accede a tu servidor personalizado.</p>
-                    <button class="app-button">Abrir</button>
+                    <p>Plataforma de comunicación en tiempo real para equipos.</p>
                 </div>
-                <div class="app-card">
+
+                <!-- Aplicación 2: Chat en Tiempo Real -->
+                <div class="app-card" onclick="openApp('Chat')">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2462/2462719.png" alt="Chat">
                     <h3>Chat en Tiempo Real</h3>
-                    <p>Comunícate con tu equipo.</p>
-                    <button class="app-button">Abrir</button>
+                    <p>Mensajería instantánea con soporte para grupos.</p>
                 </div>
-                <div class="app-card">
+
+                <!-- Aplicación 3: Gestión de Tareas -->
+                <div class="app-card" onclick="openApp('Tareas')">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2830/2830318.png" alt="Tareas">
                     <h3>Gestión de Tareas</h3>
-                    <p>Organiza tus proyectos.</p>
-                    <button class="app-button">Abrir</button>
+                    <p>Organiza y prioriza tus proyectos de manera eficiente.</p>
                 </div>
-                <div class="app-card">
+
+                <!-- Aplicación 4: Estadísticas -->
+                <div class="app-card" onclick="openApp('Estadísticas')">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png" alt="Estadísticas">
                     <h3>Estadísticas</h3>
-                    <p>Visualiza tus métricas.</p>
-                    <button class="app-button">Abrir</button>
+                    <p>Visualiza métricas y análisis en tiempo real.</p>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function openApp(appName) {
+            alert(`Abriendo ${appName}`);
+            // Aquí puedes redirigir a otra página o ejecutar una acción.
+        }
+    </script>
 </body>
 </html>
