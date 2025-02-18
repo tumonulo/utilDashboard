@@ -1,0 +1,88 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1e1e2f;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Sección de Errores */
+.error-section {
+    background-color: #2a2a3f;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.error-section h2 {
+    margin-top: 0;
+    color: #ff4d4d;
+}
+
+.error-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.error-item {
+    background-color: #3a3a4f;
+    padding: 10px;
+    border-radius: 5px;
+    color: #ff8080;
+}
+
+/* Sección de Aplicaciones */
+.app-section {
+    background-color: #2a2a3f;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.app-section h2 {
+    margin-top: 0;
+    color: #4d94ff;
+}
+
+.app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.app-card {
+    background-color: #3a3a4f;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.app-card h3 {
+    margin-top: 0;
+    color: #4d94ff;
+}
+
+.app-card p {
+    color: #cccccc;
+}
+
+.app-button {
+    background-color: #4d94ff;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.app-button:hover {
+    background-color: #66a3ff;
+}
