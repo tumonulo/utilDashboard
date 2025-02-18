@@ -3,6 +3,7 @@ const path = require('node:path')
 
 const { Client, GatewayIntentBits, Partials } = require('discord.js')
 const cors = require('cors')
+const colors = require('colors')
 
 const express = require('express')
 const app = express()
@@ -64,7 +65,8 @@ app.use((req, res) => {
   res.status(404).sendFile(process.cwd() + '/public/html/404.html')
 })
 
-module.exports = client
+const clients = [client]
+module.exports = clients
 
 const startTime = Date.now();
 Promise.all([
@@ -87,4 +89,5 @@ Promise.all([
       ╚═════════════════════════════════════╝
       Details: ${error.message}
     `.red)
+
 })

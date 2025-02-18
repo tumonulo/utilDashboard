@@ -10,7 +10,7 @@ module.exports = async function discordGuilds(req, res) {
             const condition = guilds.includes(guildId)
 
             if (!condition) {
-                guilds.push(guildId)
+                guilds.push({ guildId: guild.id, name: guild.name, icon: guild.iconURL() })
             }
         }
     }

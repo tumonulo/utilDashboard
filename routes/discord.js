@@ -9,9 +9,5 @@ router.get('/', (req, res) => {
 
 router.get('/guilds', guilds)
 
-router.get('/:guild', a)
-
-router.get('/:guild/:channel', b)
-
 
 module.exports = router
