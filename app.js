@@ -3,6 +3,7 @@ const path = require('node:path')
 const { createServer } = require('node:http');
 
 const { Client, GatewayIntentBits, Partials } = require('discord.js')
+const mongoose = require('mongoose')
 const cors = require('cors')
 const colors = require('colors')
 
@@ -11,25 +12,31 @@ const app = express()
 
 const server = createServer(app)
 const { Server } = require('socket.io')
-const io = new Server(server)
+const io = new Server(server, {
+  cors: {
+    origin: ["http://localhost:8080", "https://ts-comunity-brawl.vercel.app/"],
+    methods: ["GET", "POST"],
+  },
+})
 
 require('dotenv').config()
 const PORT = process.env.PORT || 8080
 const TOKEN_DISCORD_BOT = process.env.TOKEN_DISCORD_BOT
+const MONGODB_URL = process.env.MONGODB_URL
 
 process.on('unhandledRejection', async (reason, promise) => {
   console.log('Unhandled Rejection error at:', promise, 'reason', reason)
-  io.emit('log', { type: 'error', message: 'Unhandled Rejection error at:', promise, 'reason', reason })
+  io.emit('log', { type: 'error', message: `Unhandled Rejection error at: ${promise} reason ${reason}` })
 })
 
 process.on('uncaughtException', (err) => {
    console.log('Uncaught Expection', err)
-   io.emit('log', { type: 'error', message: 'Uncaught Expection', err })
+   io.emit('log', { type: 'error', message: `Uncaught Expection ${err}` })
 })
 
 process.on('uncaughtExceptionMonitor', (err, origin) => {
   console.log('Uncaught Expection Monitor', err, origin)
-  io.emit('log', { type: 'error', message: 'Uncaught Expection Monitor', err, origin })
+  io.emit('log', { type: 'error', message: `Uncaught Expection Monitor ${err} ${origin}` })
 })
 
 const client = new Client({
@@ -39,6 +46,8 @@ const client = new Client({
       parse: ["users"]
     },
 })
+
+mongoose.set('strictQuery', true)
 
 app.use(express.static(path.join(__dirname, 'public')))
 app.disable('x-powered-by')
@@ -79,23 +88,27 @@ module.exports = clients
 const startTime = Date.now();
 Promise.all([
   server.listen(PORT),
+  mongoose.connect(MONGODB_URL || '', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }),
   client.login(TOKEN_DISCORD_BOT)
 ]).then(() => {
     const elapsedTime = Date.now() - startTime;
     const elapsedTimeStr = `${elapsedTime} ms`
-    console.log(`
+    io.emit('log', { type: 'info', message: `
       ╔════════════════════════════════════╗╔════════════════════════════════════╗
       ║          SERVER LISTENING          ║║        DISCORD BOT CONNECTED       ║
       ╚════════════════════════════════════╝╚════════════════════════════════════╝
       Localhost: http://localhost:${PORT}       Discord Bot Name: ${client.user.username}
       Time Until Initialize: ${elapsedTimeStr.padEnd(15)} Discord Bot ID: ${client.user.id}
-      `.green)
+      ` })
+
   }).catch(error => {
-    console.error(`
+    io.emit('error', { type: 'info', message: `
       ╔═════════════════════════════════════╗
       ║          CONNECTION ERROR           ║
       ╚═════════════════════════════════════╝
       Details: ${error.message}
-    `.red)
-
+    ` })
 })

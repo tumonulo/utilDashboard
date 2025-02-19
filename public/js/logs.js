@@ -1,27 +1,34 @@
+import { io } from 'https://cdn.socket.io/4.3.2/socket.io.esm.min.js'
+
 const socket = io()
 
-document.addEventlistener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', async () => {
   await editConsole()
 })
 
-socket.on('log', async data => {
-  const message = data.message
-  const type = data.type
+socket.on('log', async (data) => {
+  console.log('socketChec')
+  const { message, type } = data
 
   try {
     await fetch('/logs/log', {
       method: 'POST',
-      body: JSON.stringify({
-        'message': message,
-        'type': type
-      })
-    }).then(editConsole())
-  } catch (error)
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ message, type })
+    })
+
+    await editConsole()
+  } catch (error) {
+    console.error('Error al enviar log:', error)
+  }
 })
 
 async function editConsole() {
   if (window.location.pathname === '/') {
-    const console = documnet.getElementsByClassName('error-output')
+    const consoleContainer = document.querySelector('.error-output')
+    if (!consoleContainer) return
 
     let logsFullMessage = ''
 
@@ -29,13 +36,13 @@ async function editConsole() {
       const response = await fetch('/logs')
       const data = await response.json()
 
-      const logs = data.logs
-
-      for (const log of logs) {
+      for (const log of data.logs) {
         logsFullMessage += `<div class="log-entry ${log.type}">[${log.type.toUpperCase()}] ${log.message}</div>`
       }
 
-      console.innerHTML = logsFullMessage
-    } catch (error)
+      consoleContainer.innerHTML = logsFullMessage
+    } catch (error) {
+      console.error('Error al obtener logs:', error)
+    }
   }
 }
