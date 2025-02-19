@@ -1,5 +1,6 @@
 const fs = require('node:fs')
 const path = require('node:path')
+const { createServer } = require('node:http');
 
 const { Client, GatewayIntentBits, Partials } = require('discord.js')
 const cors = require('cors')
@@ -8,20 +9,27 @@ const colors = require('colors')
 const express = require('express')
 const app = express()
 
+const server = createServer(app)
+const { Server } = require('socket.io')
+const io = new Server(server)
+
 require('dotenv').config()
 const PORT = process.env.PORT || 8080
 const TOKEN_DISCORD_BOT = process.env.TOKEN_DISCORD_BOT
 
 process.on('unhandledRejection', async (reason, promise) => {
   console.log('Unhandled Rejection error at:', promise, 'reason', reason)
+  io.emit('error', { type: 'unhandledRejection', reason: reason.toString() })
 })
 
 process.on('uncaughtException', (err) => {
    console.log('Uncaught Expection', err)
+   io.emit('error', { type: 'uncaughtException', error: err.toString() });
 })
 
 process.on('uncaughtExceptionMonitor', (err, origin) => {
   console.log('Uncaught Expection Monitor', err, origin)
+  io.emit('error', { type: 'uncaughtExceptionMonitor', error: err.toString(), origin });
 })
 
 const client = new Client({
@@ -70,7 +78,7 @@ module.exports = clients
 
 const startTime = Date.now();
 Promise.all([
-  app.listen(PORT),
+  server.listen(PORT),
   client.login(TOKEN_DISCORD_BOT)
 ]).then(() => {
     const elapsedTime = Date.now() - startTime;
