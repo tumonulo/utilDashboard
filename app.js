@@ -19,17 +19,17 @@ const TOKEN_DISCORD_BOT = process.env.TOKEN_DISCORD_BOT
 
 process.on('unhandledRejection', async (reason, promise) => {
   console.log('Unhandled Rejection error at:', promise, 'reason', reason)
-  io.emit('error', { type: 'unhandledRejection', reason: reason.toString() })
+  io.emit('log', { type: 'unhandledRejection', reason: reason.toString() })
 })
 
 process.on('uncaughtException', (err) => {
    console.log('Uncaught Expection', err)
-   io.emit('error', { type: 'uncaughtException', error: err.toString() });
+   io.emit('log', { type: 'uncaughtException', error: err.toString() });
 })
 
 process.on('uncaughtExceptionMonitor', (err, origin) => {
   console.log('Uncaught Expection Monitor', err, origin)
-  io.emit('error', { type: 'uncaughtExceptionMonitor', error: err.toString(), origin });
+  io.emit('log', { type: 'uncaughtExceptionMonitor', error: err.toString(), origin });
 })
 
 const client = new Client({

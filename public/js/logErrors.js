@@ -1,6 +1,6 @@
 const socket = io()
 
-socket.on('error', (data) => {
+socket.on('log', (data) => {
   console.error('Error from server:', data);
   if (data.type === 'unhandledRejection') {
     alert(`Unhandled Rejection: ${data.reason}`);

@@ -6,7 +6,7 @@ const logsLog = require('../controllers/logs/logsLog.js')
 
 router.get('/', logs)
 
-router.get('/log', logsLog)
+router.get('/log/:type', logsLog)
 
 
 module.exports = router
