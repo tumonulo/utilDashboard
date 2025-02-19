@@ -1,7 +1,7 @@
 module.exports = async function discordGuilds(req, res) {
     const clients = require('../../app.js');
     
-    let guilds = [];
+    let guilds = []
 
     for (const client of clients) {
         const clientGuilds = client.guilds.cache;

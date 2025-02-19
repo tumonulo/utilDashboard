@@ -1,13 +1,9 @@
 const Schema = require('../../schemas/logsSchema.js')
 
 module.exports = async function logs(req, res) {
-    try {
-        const data = await Schema.findOne()
+    const data = await Schema.findOne()
 
-        const logs = data.logs.join('\n')
-    } catch (error) {
-        console.error(error)
-    }
+    const logs = data.Logs
     res.json({
         'logs': logs
     });

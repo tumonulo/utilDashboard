@@ -1,22 +1,41 @@
 const socket = io()
 
+document.addEventlistener('DOMContentLoaded', async () => {
+  await editConsole()
+})
+
 socket.on('log', async data => {
-  console.error('Error from server:', data)
-  if (data.type === 'error') {
-  
-    if (!data.message) return
+  const message = data.message
+  const type = data.type
+
+  try {
+    await fetch('/logs/log', {
+      method: 'POST',
+      body: JSON.stringify({
+        'message': message,
+        'type': type
+      })
+    }).then(editConsole())
+  } catch (error)
+})
+
+async function editConsole() {
+  if (window.location.pathname === '/') {
+    const console = documnet.getElementsByClassName('error-output')
+
+    let logsFullMessage = ''
 
     try {
-      const request = await fetch('/logs/log', () => {
-        method: 'POST',
-        body: JSON.stringify({
-          message: '',
-          type: ''
-        })
-      })
-      const response = await request.json()
-    } catch (error) {
-      console.log(error)
-    }
+      const response = await fetch('/logs')
+      const data = await response.json()
+
+      const logs = data.logs
+
+      for (const log of logs) {
+        logsFullMessage += `<div class="log-entry ${log.type}">[${log.type.toUpperCase()}] ${log.message}</div>`
+      }
+
+      console.innerHTML = logsFullMessage
+    } catch (error)
   }
-})
+}

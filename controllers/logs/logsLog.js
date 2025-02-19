@@ -7,24 +7,19 @@ module.exports = async function logsLog(req, res) {
     if (!type) return res.status(400).json({ message: 'No se ha proporcionado ningun tipo' })
     if (type != 'error' || type != 'warning' || type != 'info') return res.status(400).json({ message: 'No se ha proporcionado un tipo correcto. Tipos aceptados: error, warning, info' })
 
-    try {
-        const data = await Schema.findOne()
+    const data = await Schema.findOne()
 
-        const logs = data.logs
+    const logs = data.Logs
 
-        const newLog = {
-            message,
-            type
-        }
+    const newLog = {
+        message,
+        type
+    }
         
-        logs.unshift(newLog)
+    logs.unshift(newLog)
         
-        if (logsArray.length > 10) {
-            logs = logs.slice(0, 10)
-        }
-
-    } catch (error) {
-        console.error(error)
+    if (logsArray.length > 10) {
+        logs = logs.slice(0, 10)
     }
 
     if (type === 'error') {
