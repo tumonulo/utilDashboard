@@ -8,11 +8,11 @@ socket.on('log', async data => {
 
     try {
       const request = await fetch('/logs/log', () => {
-        method: 'POST'
-        body: {
-          'message': '',
-          'type': ''
-        }
+        method: 'POST',
+        body: JSON.stringify({
+          message: '',
+          type: ''
+        })
       })
       const response = await request.json()
     } catch (error) {

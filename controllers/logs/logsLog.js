@@ -27,6 +27,14 @@ module.exports = async function logsLog(req, res) {
         console.error(error)
     }
 
+    if (type === 'error') {
+        console.log(message.red)
+    } else if (type === 'warning') {
+        console.log(message.yellow)
+    } else if (type === 'info') {
+        console.log(message.blue)
+    }
+
     res.json({
         'succes': true,
         'newLog': newLog
