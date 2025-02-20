@@ -1,12 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord</title>
+    <title>Discord Bot View</title>
+    <link rel="stylesheet" href="../css/discord.css">
 </head>
 <body>
-    Discord
-<script type="module" src="../js/logs.js"></script>
+    <div class="container">
+        <!-- Barra de servidores -->
+        <div class="server-sidebar">
+            <div class="server-icon"></div>
+            <div class="server-icon"></div>
+            <div class="server-icon"></div>
+        </div>
+
+        <!-- Barra de canales -->
+        <div class="channel-sidebar">
+            <div class="channel-header">
+                <h2>Nombre del Servidor</h2>
+            </div>
+            <div class="channel-list">
+                <div class="channel"># general</div>
+                <div class="channel"># random</div>
+                <div class="channel"># música</div>
+            </div>
+        </div>
+
+        <!-- Área de mensajes -->
+        <div class="message-area">
+            <div class="message-header">
+                <h2># general</h2>
+            </div>
+            <div class="messages">
+                <!-- Los mensajes se agregarán aquí con JavaScript -->
+            </div>
+            <div class="message-input">
+                <input type="text" placeholder="Escribe un mensaje...">
+            </div>
+        </div>
+    </div>
 </body>
 </html>

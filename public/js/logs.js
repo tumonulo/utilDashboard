@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 })
 
 socket.on('log', async (data) => {
-  console.log('socketChec')
   const { message, type } = data
 
   try {
