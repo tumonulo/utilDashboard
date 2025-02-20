@@ -20,6 +20,10 @@ window.addEventListener('DOMContentLoaded', async () {
             serverIcon.title = guild.name
 
             serverSidebar.appendChild(serverIcon)
+
+            serverIcon.addEventListener('onclick', () => {
+                window.location.href = `/discord/${guild.is}`
+            })
         }
     } catch (error) {
         console.log('Error al cargar los servidores')
