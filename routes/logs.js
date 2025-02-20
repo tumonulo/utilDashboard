@@ -6,7 +6,7 @@ const logsLog = require('../controllers/logs/logsLog.js')
 
 router.get('/', logs)
 
-router.post('/log', logsLog)
+router.patch('/log', logsLog)
 
 
 module.exports = router
