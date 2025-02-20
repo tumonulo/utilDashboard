@@ -16,7 +16,5 @@ router.patch('/client/edit', clientEdit)
 
 router.get('/guilds', guilds)
 
-router.get('/guilds', guilds)
-
 
 module.exports = router

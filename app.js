@@ -21,8 +21,9 @@ const io = new Server(server, {
 
 require('dotenv').config()
 const PORT = process.env.PORT || 8080
-const TOKEN_DISCORD_BOT = process.env.TOKEN_DISCORD_BOT
 const MONGODB_URL = process.env.MONGODB_URL
+const TOKEN_DISCORD_BOT_1 = process.env.TOKEN_DISCORD_BOT_1
+const TOKEN_DISCORD_BOT_2 = process.env.TOKEN_DISCORD_BOT_2
 
 process.on('unhandledRejection', async (reason, promise) => {
   console.log('Unhandled Rejection error at:', promise, 'reason', reason)
@@ -39,7 +40,14 @@ process.on('uncaughtExceptionMonitor', (err, origin) => {
   io.emit('log', { type: 'error', message: `Uncaught Expection Monitor ${err} ${origin}` })
 })
 
-const client = new Client({
+const client1 = new Client({
+  intents: [Object.keys(GatewayIntentBits)],
+  partials: [Object.keys(Partials), Partials.Channel],
+  allowedMentions: {
+      parse: ["users"]
+    },
+})
+const client2 = new Client({
   intents: [Object.keys(GatewayIntentBits)],
   partials: [Object.keys(Partials), Partials.Channel],
   allowedMentions: {
@@ -82,7 +90,7 @@ app.use((req, res) => {
   res.status(404).sendFile(process.cwd() + '/public/html/404.html')
 })
 
-const clients = [client]
+const clients = [client1, client2]
 module.exports = clients
 
 const startTime = Date.now();
@@ -92,7 +100,8 @@ Promise.all([
     useNewUrlParser: true,
     useUnifiedTopology: true
   }),
-  client.login(TOKEN_DISCORD_BOT)
+  client1.login(TOKEN_DISCORD_BOT_1)
+  client2.login(TOKEN_DISCORD_BOT_2)
 ]).then(() => {
     const elapsedTime = Date.now() - startTime;
     const elapsedTimeStr = `${elapsedTime} ms`

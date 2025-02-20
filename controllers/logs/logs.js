@@ -7,5 +7,5 @@ module.exports = async function logs(req, res) {
     const logs = data.Logs
     res.json({
         'logs': logs
-    });
+    })
 }

@@ -31,7 +31,7 @@ module.exports = async function logsLog(req, res) {
     }
 
     res.json({
-        'succes': true,
+        'success': true,
         'newLog': newLog
     })
 }
