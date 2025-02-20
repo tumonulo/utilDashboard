@@ -40,6 +40,7 @@ body {
 
 .server-icon:hover {
     background-color: #677bc4;
+    cursor: pointer;
 }
 
 /* Barra de canales */

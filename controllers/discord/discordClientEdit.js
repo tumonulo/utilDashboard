@@ -14,7 +14,7 @@ module.exports = async function clientEdit(req, res) {
 
             const client = clients.find(client => client.id === clientID)
         
-            const newClient = { ID: client.id, Name: client.user.username, Avatar: client.user.avatarURL() }
+            const newClient = { id: client.id, name: client.user.username, avatar: client.user.avatarURL() }
             
             data.Client = newClient
         
