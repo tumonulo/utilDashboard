@@ -1,10 +1,10 @@
 const guildSidebar = document.querySelector('.guild-sidebar')
 
-window.addEventListener('DOMContentLoaded', async () {
+window.addEventListener('DOMContentLoaded', async () => {
     await loadDiscordGuilds()
 })
 
-async funtion loadDiscordGuilds() {
+async function loadDiscordGuilds() {
     try {
         const response = await fetch('/discord/guilds')
         const guilds = await response.json()

@@ -16,6 +16,9 @@ module.exports = async function discordGuilds(req, res) {
             channels.push({ 'id': channel.id, 'name': channel.name, 'type': channel.type })
         })
 
+        const id = guild.id
+        const name = guild.name
+        const banner = guild.bannerURL()
         const boosts = guild.premiumSubscriptionCount
         const totalMembers = guild.memberCount
         const members = await guild.members.fetch({ withPresences: true })
@@ -26,8 +29,11 @@ module.exports = async function discordGuilds(req, res) {
         )
     
         res.json({
+            'id': id,
+            'name': name,
+            'banner': banner,
             'boosts': boosts,
-            'members': { total: totalMembers, active: activeMembers.size }
+            'members': { total: totalMembers, active: activeMembers.size },
             'channels': channels
         })
     } catch (error) {
