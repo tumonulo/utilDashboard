@@ -1,4 +1,4 @@
-const Schema = require('../../schemas/discordSchema.js')
+const schema = require('../../schemas/discordSchema.js')
 
 module.exports = async function clientEdit(req, res) {
     const clients = require('../../app.js')
@@ -16,14 +16,14 @@ module.exports = async function clientEdit(req, res) {
     }
 
     const newClientsArray = clients.map(client => ({
-        ID: client.id,
-        Name: client.user.username,
-        Avatar: client.user.avatarURL(),
-        Selected: client.id === clientID
+        id: client.id,
+        name: client.user.username,
+        avatar: client.user.avatarURL(),
+        selected: client.id === clientID
     }))
 
     try {
-        const data = await Schema.findOne()
+        const data = await schema.findOne()
 
         data.Clients = newClientsArray
 

@@ -1,31 +1,35 @@
-const serverSidebar = document.querySelector('.server-sidebar')
+const guildSidebar = document.querySelector('.guild-sidebar')
 
 window.addEventListener('DOMContentLoaded', async () {
+    await loadDiscordGuilds()
+})
+
+async funtion loadDiscordGuilds() {
     try {
         const response = await fetch('/discord/guilds')
         const guilds = await response.json()
 
         for (const guild of guilds) {
-            const serverIcon = document.createElement('div')
-            serverIcon.classList.add('server-icon')
+            const guildIcon = document.createElement('div')
+            guildIcon.classList.add('guild')
 
             if (guild.icon) {
-                serverIcon.style.backgroundImage = `url(${guild.icon})`
-                serverIcon.style.backgroundSize = 'cover'
+                guildIcon.style.backgroundImage = `url(${guild.icon})`
+                guildIcon.style.backgroundSize = 'cover'
             } else {
-                serverIcon.style.backgroundColor = '#7289da'
-                serverIcon.textContent = guild.name.charAt(0).toUpperCase()
+                guildIcon.style.backgroundColor = '#7289da'
+                guildIcon.textContent = guild.name.charAt(0).toUpperCase()
             }
 
-            serverIcon.title = guild.name
+            guildIcon.title = guild.name
 
-            serverSidebar.appendChild(serverIcon)
+            guildSidebar.appendChild(guildIcon)
 
-            serverIcon.addEventListener('onclick', () => {
-                window.location.href = `/discord/${guild.is}`
+            guildIcon.addEventListener('onclick', () => {
+                window.location.href = `/discord/${guild.id}`
             })
         }
     } catch (error) {
         console.log('Error al cargar los servidores')
     }
-})
+}

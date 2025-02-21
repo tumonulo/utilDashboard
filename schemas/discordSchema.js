@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose')
 
 let discordSchema = new Schema({
-    Clients: []
+    clients: []
 })
 
 module.exports = model("discordSchema", discordSchema)

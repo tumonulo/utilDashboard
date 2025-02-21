@@ -1,12 +1,12 @@
-const Schema = require('../../schemas/discordSchema.js')
+const schema = require('../../schemas/discordSchema.js')
 
 module.exports = async function discordGuilds(req, res) {
     try {
         const clients = require('../../app.js')
 
-        const data = await Scheme.findOne()
+        const data = await schema.findOne()
 
-        const clientID = data.Client.ID
+        const clientID = data.clients.find(client => client.selected === true).id
 
         const client = clients.find(client => client.id === clientID)
     
