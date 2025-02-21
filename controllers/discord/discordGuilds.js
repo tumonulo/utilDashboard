@@ -8,14 +8,14 @@ module.exports = async function discordGuilds(req, res) {
 
         const clientID = data.clients.find(client => client.selected === true).id
 
-        const client = clients.find(client => client.id === clientID)
+        const client = clients.find(client => client.user.id === clientID)
     
-        let guilds = []
-    
-        for (const guild of client.guilds.cache) {
-            guilds.push({ id: guild.id, name: guild.name, icon: guild.iconURL() })
-        }
-
+        const guilds = client.guilds.cache.map(guild => ({
+            id: guild.id,
+            name: guild.name,
+            icon: guild.iconURL()
+        }))
+        
         res.json({
             'guilds': guilds
         })

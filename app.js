@@ -59,23 +59,11 @@ mongoose.set('strictQuery', true)
 
 app.use(express.static(path.join(__dirname, 'public')))
 app.disable('x-powered-by')
+app.use(express.json())
 app.use(cors({
-  origin: (origin, callback) => {
-    const acceptedOrigins = [
-      'https://ts-comunity-brawl.vercel.app/'
-    ]
-
-    if (acceptedOrigins.includes(origin)) {
-      return callback(null, true)
-    }
-
-    if (!origin) {
-      return callback(null, true)
-    }
-
-    return callback(new Error('Not allowed by CORS'))
-  }
+  origin: '*'
 }))
+
 
 const folderPath = __dirname + '/routes'
 fs.readdirSync(folderPath).forEach((file) => {
@@ -100,7 +88,7 @@ Promise.all([
     useNewUrlParser: true,
     useUnifiedTopology: true
   }),
-  client1.login(TOKEN_DISCORD_BOT_1)
+  client1.login(TOKEN_DISCORD_BOT_1),
   client2.login(TOKEN_DISCORD_BOT_2)
 ]).then(() => {
     const elapsedTime = Date.now() - startTime;

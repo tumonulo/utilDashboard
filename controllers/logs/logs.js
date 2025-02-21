@@ -1,10 +1,9 @@
-const Schema = require('../../schemas/logsSchema.js')
+const schema = require('../../schemas/logsSchema.js')
 
 module.exports = async function logs(req, res) {
+    const data = await schema.findOne()
 
-    const data = await Schema.findOne()
-
-    const logs = data.Logs
+    const logs = data.logs
     res.json({
         'logs': logs
     })

@@ -5,16 +5,16 @@ module.exports = async function discordGuilds(req, res) {
         const clients = require('../../app.js')
         const data = await schema.findOne()
         const clientID = data.clients.find(client => client.selected === true).id
-        const client = clients.find(client => client.id === clientID)
+        const client = clients.find(client => client.user.id === clientID)
     
         const guildID = req.params.guildID
         const guild = await client.guilds.cache.get(guildID)
     
-        let channels = []
-    
-        guild.chhanels.cache.forEach(channel => {
-            channels.push({ 'id': channel.id, 'name': channel.name, 'type': channel.type })
-        })
+        const channels = guild.channels.cache.map(channel => ({
+            id: channel.id,
+            name: channel.name,
+            type: channel.type
+        }))
 
         const id = guild.id
         const name = guild.name
