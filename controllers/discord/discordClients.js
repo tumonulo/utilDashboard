@@ -1,12 +1,10 @@
 const Schema = require('../../schemas/discordSchema.js')
 
-module.exports = async function client(req, res) {
-
+module.exports = async function clientEdit(req, res) {
     const data = await Schema.findOne()
+    const clients = data.Clients
 
-    const client = data.Client
-    
     res.json({
-        'client': client
+        'clients': clients
     })
 }

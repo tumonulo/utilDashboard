@@ -1,11 +1,7 @@
 const { Schema, model } = require('mongoose')
 
 let discordSchema = new Schema({
-    Client: {
-        ID: Number,
-        Name: String,
-        Avatar: String
-    }
+    Clients: []
 })
 
 module.exports = model("discordSchema", discordSchema)

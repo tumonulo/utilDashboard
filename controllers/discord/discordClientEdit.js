@@ -3,29 +3,35 @@ const Schema = require('../../schemas/discordSchema.js')
 module.exports = async function clientEdit(req, res) {
     const clients = require('../../app.js')
 
-    const clientsIDs = clients.map(client => client.id)
+    const clientsIDs = clients.map(client => client.id);
 
-    const clientID = req.body.clientID
+    const clientID = req.body.clientID;
 
-    if (!clientsIDs.includes(clientID)) return res.status(404).json({ 'succes': false, 'error': 'No cuento con ningun cliente con ese ID' })
+    if (!clientID) {
+        return res.status(400).json({ success: false, error: 'clientID is required' });
+    }
 
-        try {
-            const data = await Schema.findOne()
+    if (!clientsIDs.includes(clientID)) {
+        return res.status(404).json({ success: false, error: 'No cuento con ningún cliente con ese ID' });
+    }
 
-            const client = clients.find(client => client.id === clientID)
-        
-            const newClient = { id: client.id, name: client.user.username, avatar: client.user.avatarURL() }
-            
-            data.Client = newClient
-        
-            await data.save()
+    const newClientsArray = clients.map(client => ({
+        ID: client.id,
+        Name: client.user.username,
+        Avatar: client.user.avatarURL(),
+        Selected: client.id === clientID
+    }))
 
-            res.json({
-                'success': true,
-                'newClient': newClient
-            })
-        } catch (error) {
-            console.error(error)
-            res.status(500).json({ success: false, error: 'Error interno del servidor' })
-        }
+    try {
+        const data = await Schema.findOne()
+
+        data.Clients = newClientsArray
+
+        await data.save()
+
+        res.json({ success: true, clients: newClientsArray })
+
+    } catch (error) {
+        console.error(error)
+    }
 }
