@@ -11,6 +11,10 @@ router.get('/', (req, res) => {
     res.sendFile(process.cwd() + '/public/html/discord.html')
 })
 
+router.get('/:guildID', (req, res) => {
+    res.sendFile(process.cwd() + '/public/html/discordGuild.html')
+})
+
 router.get('/clients', clients)
 
 router.patch('/clients/edit', clientEdit)
