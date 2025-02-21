@@ -14,14 +14,22 @@ router.get('/', (req, res) => {
 router.get('/:guildID', (req, res) => {
     res.sendFile(process.cwd() + '/public/html/discordGuild.html')
 })
+router.get('/:guildID/data', guildData)
 
-router.get('/clients', clients)
-
-router.patch('/clients/edit', clientEdit)
+router.get('/:guildID/:channelID', (req, res) => {
+    res.sendFile(process.cwd() + '/public/html/discordGuildChannel.html')
+})
+router.get('/:guildID/:channelID/data', guildData)
 
 router.get('/guilds', guilds)
 
-router.get('/:guildID/data', guildData)
+router.get('/clients', clients)
+
+router.patch('/clients/edit', clientsEdit)
+
+
+
+
 
 
 module.exports = router

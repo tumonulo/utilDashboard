@@ -1,9 +1,9 @@
-const channelList = document.querySelector('.channel-list')
 const channelHeader = document.querySelector('.channel-header')
 const channelHeaderTitle = document.querySelector('.channel-header-title')
 const channelHeaderStatsBoosts = document.querySelector('.channel-header-stats-boosts')
 const channelHeaderStatsMembers = document.querySelector('.channel-header-stats-members')
 const channelHeaderStatsActiveMembers = document.querySelector('.channel-header-stats-activeMembers')
+const channelList = document.querySelector('.channel-list')
 
 window.addEventListener('DOMContentLoaded', async () => {
     await loadGuildChannels()
@@ -30,11 +30,12 @@ async function loadGuildChannels() {
         for (const channel of data.channels) {
             const channelIcon = document.createElement('div')
             channelIcon.classList.add('channel')
+            channelIcon.textContent = data.name
             
             channelList.appendChild(channelIcon)
 
             channelIcon.addEventListener('onclick', () => {
-                window.location.href = `/discord/${guild.id}/${channel.id}`
+                window.location.href = `/discord/${guildID}/${channel.id}`
             })
         }
     } catch (error) {
