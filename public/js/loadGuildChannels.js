@@ -12,13 +12,13 @@ async funtion loadGuildChannels() {
         const channels = await response.json()
 
         for (const channel of channels) {
-            const guildIcon = document.createElement('div')
-            guildIcon.classList.add('guild')
+            const channelIcon = document.createElement('div')
+            channelIcon.classList.add('channel')
             
-            guildSidebar.appendChild(guildIcon)
+            channelSidebar.appendChild(channelIcon)
 
             channelIcon.addEventListener('onclick', () => {
-                window.location.href = `/discord/${guild.id}`
+                window.location.href = `/discord/${guild.id}/${channel.id}`
             })
         }
     } catch (error) {
