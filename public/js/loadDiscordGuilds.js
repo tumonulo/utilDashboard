@@ -7,9 +7,9 @@ window.addEventListener('DOMContentLoaded', async () => {
 async function loadDiscordGuilds() {
     try {
         const response = await fetch('/discord/guilds')
-        const guilds = await response.json()
+        const data = await response.json()
 
-        for (const guild of guilds) {
+        for (const guild of data.guilds) {
             const guildIcon = document.createElement('div')
             guildIcon.classList.add('guild')
 
@@ -25,11 +25,11 @@ async function loadDiscordGuilds() {
 
             guildSidebar.appendChild(guildIcon)
 
-            guildIcon.addEventListener('onclick', () => {
-                window.location.href = `/discord/${guild.id}`
+            guildIcon.addEventListener('click', () => {
+                window.location.pathname = `/discord/${guild.id}`
             })
         }
     } catch (error) {
-        console.log('Error al cargar los servidores')
+        console.error('Error al cargar los servidores')
     }
 }

@@ -22,16 +22,11 @@ module.exports = async function clientEdit(req, res) {
         selected: client.user.id === clientID
     }))
 
-    try {
-        const data = await schema.findOne()
+    const data = await schema.findOne()
 
-        data.clients = newClientsArray
+    data.clients = newClientsArray
 
-        await data.save()
+    await data.save()
 
-        res.json({ success: true, clients: newClientsArray })
-
-    } catch (error) {
-        console.error(error)
-    }
+    res.json({ success: true, clients: newClientsArray })
 }

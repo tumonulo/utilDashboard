@@ -5,6 +5,8 @@ const data = require('../controllers/discord/discordData.js')
 const dataEdit = require('../controllers/discord/discordDataEdit.js')
 const guilds = require('../controllers/discord/discordGuilds.js')
 const guildData = require('../controllers/discord/discordGuildData.js')
+const guildChannelData = require('../controllers/discord/discordGuildChannelData.js')
+
 
 
 router.get('/', (req, res) => {
@@ -29,7 +31,7 @@ router.get('/:guildID/:channelID', (req, res) => {
     res.sendFile(process.cwd() + '/public/html/discordGuildChannel.html')
 })
 
-router.get('/:guildID/:channelID/data', guildData)
+router.get('/:guildID/:channelID/data', guildChannelData)
 
 
  

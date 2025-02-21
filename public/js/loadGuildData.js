@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 async function loadGuildChannels() {
     try {
         const pathSplited = window.location.pathname.split('/')
-        const guildID = pathSplited[0]
+        const guildID = pathSplited[2]
         const response = await fetch(`/discord/${guildID}/data`)
         const data = await response.json()
 
@@ -24,21 +24,21 @@ async function loadGuildChannels() {
 
         channelHeaderTitle.textContent = data.name
         channelHeaderStatsBoosts.textContent = data.boosts
-        channelHeaderStatsMembers.textContent = data.members
-        channelHeaderStatsActiveMembers.textContent = data.activeMembers
+        channelHeaderStatsMembers.textContent = data.members.total
+        channelHeaderStatsActiveMembers.textContent = data.members.active
 
         for (const channel of data.channels) {
             const channelIcon = document.createElement('div')
             channelIcon.classList.add('channel')
-            channelIcon.textContent = data.name
+            channelIcon.textContent = channel.name
             
             channelList.appendChild(channelIcon)
 
-            channelIcon.addEventListener('onclick', () => {
-                window.location.href = `/discord/${guildID}/${channel.id}`
+            channelIcon.addEventListener('click', () => {
+                window.location.pathname = `/discord/${guildID}/${channel.id}`
             })
         }
     } catch (error) {
-        console.log('Error al cargar los servidores')
+        console.error('Error al cargar los servidores', error)
     }
 }
