@@ -13,11 +13,7 @@ module.exports = async function discordGuilds(req, res) {
         let guilds = []
     
         for (const guild of client.guilds.cache) {
-            let channels = [] 
-            for (const channels of guild.chanels.cache) {
-                channels.push({ id: channel.id, name: channel.name })
-            }
-            guilds.push({ id: guild.id, name: guild.name, icon: guild.iconURL(), channels: channels })
+            guilds.push({ id: guild.id, name: guild.name, icon: guild.iconURL() })
         }
 
         res.json({
