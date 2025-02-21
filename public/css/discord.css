@@ -48,6 +48,10 @@ body {
     width: 240px;
     background-color: #2f3136;
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .channel-header {
@@ -58,6 +62,20 @@ body {
 .channel-header h2 {
     margin: 0;
     font-size: 16px;
+    color: white;
+}
+
+.channel-header-stats {
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.channel-header-stat {
+    color: white;
 }
 
 .channel-list {
