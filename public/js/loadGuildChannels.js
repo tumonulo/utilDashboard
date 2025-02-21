@@ -1,4 +1,4 @@
-const channelSidebar = document.querySelector('.channel-sidebar')
+const channelList = document.querySelector('.channel-list')
 
 window.addEventListener('DOMContentLoaded', async () {
     await loadGuildChannels()
@@ -15,7 +15,7 @@ async funtion loadGuildChannels() {
             const channelIcon = document.createElement('div')
             channelIcon.classList.add('channel')
             
-            channelSidebar.appendChild(channelIcon)
+            channelList.appendChild(channelIcon)
 
             channelIcon.addEventListener('onclick', () => {
                 window.location.href = `/discord/${guild.id}/${channel.id}`
