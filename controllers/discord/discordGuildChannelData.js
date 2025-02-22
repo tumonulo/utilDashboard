@@ -12,7 +12,8 @@ module.exports = async function discordGuilds(req, res) {
     const channelID = req.params.channelID
     const channel = guild.channels.cache.get(channelID)
 
-    const messages = await channel.messages.fetch({ limit: 100 })
+    const fetchedMessages = await channel.messages.fetch({ limit: 100 })
+    const messages = fetchedMessages ? Object.entries(fetchedMessages).sort((a, b) => a.createdTimestamp - b.createdTimestamp) : [{ id: 'no-messages', content: 'No hay mensajes en este canal.', author: { username: 'Sistema' }, createdTimestamp: Date.now() }]
 
     res.json({
         'channel': { 'id': channel.id, 'name': channel.name },

@@ -51,6 +51,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: auto;
 }
 
 .channel-header {
@@ -79,6 +80,7 @@ body {
 
 .channel-list {
     margin-top: 10px;
+    overflow-y: auto;
 }
 
 .channel {

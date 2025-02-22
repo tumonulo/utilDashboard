@@ -17,7 +17,7 @@ async function loadChannels() {
 
         messageHeaderChannel.textContent = data.channel.name
 
-        for (const [id, message] of Object.entries(data.messages)) {
+        for (const [id, message] of data.messages) {
             const messageDiv = document.createElement('div')
             messageDiv.classList.add('message')
             messageDiv.textContent = message.content
