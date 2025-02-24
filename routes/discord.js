@@ -3,7 +3,7 @@ const router = Router()
 
 const data = require('../controllers/discord/discordData.js')
 const dataEdit = require('../controllers/discord/discordDataEdit.js')
-const guilds = require('../controllers/discord/discordGuilds.js')
+const clientData = require('../controllers/discord/discordClientData.js')
 const guildData = require('../controllers/discord/discordGuildData.js')
 const guildChannelData = require('../controllers/discord/discordGuildChannelData.js')
 
@@ -17,7 +17,8 @@ router.get('/data', data)
 
 router.patch('/data/edit', dataEdit)
 
-router.get('/guilds', guilds)
+
+router.get('/client/data', clientData)
  
 
 router.get('/:guildID', (req, res) => {
@@ -34,6 +35,5 @@ router.get('/:guildID/:channelID', (req, res) => {
 router.get('/:guildID/:channelID/data', guildChannelData)
 
 
- 
 
 module.exports = router
