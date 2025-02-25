@@ -20,18 +20,19 @@ const io = new Server(server, {
 })
 
 const { PORT, MONGODB_URL, TOKEN_DISCORD_BOT_1, TOKEN_DISCORD_BOT_2 } = require('./config.js')
+cosnt { loadEvents } = require('./events/loadEvents')
 
 process.on('unhandledRejection', async (reason, promise) => {
   console.log('Unhandled Rejection error at:', promise, 'reason', reason)
-  io.emit('log', { type: 'error', message: `Unhandled Rejection error at: ${promise} reason ${reason}` })
+  io.emit('log', { type: 'error', message: `Unhandled Rejection error. Reason: ${reason}` })
 })
 
-process.on('uncaughtException', (err) => {
+process.on('uncaughtException', async (err) => {
    console.log('Uncaught Expection', err)
    io.emit('log', { type: 'error', message: `Uncaught Expection ${err}` })
 })
 
-process.on('uncaughtExceptionMonitor', (err, origin) => {
+process.on('uncaughtExceptionMonitor', async (err, origin) => {
   console.log('Uncaught Expection Monitor', err, origin)
   io.emit('log', { type: 'error', message: `Uncaught Expection Monitor ${err} ${origin}` })
 })
@@ -87,6 +88,7 @@ Promise.all([
   client1.login(TOKEN_DISCORD_BOT_1),
   client2.login(TOKEN_DISCORD_BOT_2)
 ]).then(() => {
+    loadEvents(clients)
     const elapsedTime = Date.now() - startTime;
     const elapsedTimeStr = `${elapsedTime} ms`
     io.emit('log', { type: 'info', message: `
