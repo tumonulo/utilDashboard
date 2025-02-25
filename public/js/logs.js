@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   await editConsole()
 })
 
-socket.on('log', async (data) => {
+socket.on('log', async data => {
+  console.log('b')
   const { color, message } = data
 
   try {
@@ -29,8 +30,6 @@ async function editConsole() {
     const consoleContainer = document.querySelector('.error-output')
     if (!consoleContainer) return
 
-    let logsFullMessage = ''
-
     try {
       const response = await fetch('/logs')
       const data = await response.json()
@@ -41,7 +40,7 @@ async function editConsole() {
         logDiv.style.color = log.color
         logDiv.textContent = log.message
         
-        logDiv.appendChild(consoleContainer)
+        consoleContainer.appendChild(logDiv)
       }
     } catch (error) {
       console.error('Error al obtener logs:', error)

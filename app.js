@@ -25,19 +25,16 @@ const loadEvents = require('./handlers/loadEvents.js')
 process.on('unhandledRejection', async (reason, promise) => {
   console.log('Unhandled Rejection error at:', promise, 'reason', reason)
   io.emit('log', { type: 'error', message: `Unhandled Rejection error. Reason: ${reason}` })
-  console.log('a')
 })
 
 process.on('uncaughtException', async (err) => {
    console.log('Uncaught Expection', err)
    io.emit('log', { type: 'error', message: `Uncaught Expection ${err}` })
-   console.log('a')
 })
 
 process.on('uncaughtExceptionMonitor', async (err, origin) => {
   console.log('Uncaught Expection Monitor', err, origin)
   io.emit('log', { type: 'error', message: `Uncaught Expection Monitor ${err} ${origin}` })
-  console.log('a')
 }) 
 
 const client1 = new Client({
@@ -77,6 +74,11 @@ fs.readdirSync(folderPath).forEach((file) => {
 app.use((req, res) => {
   res.status(404).sendFile(process.cwd() + '/public/html/404.html')
 })
+
+io.on('connection', socket => {
+  io.emit('log', { color: 'blue', message: `Nuevo cliente conectado` })
+})
+
 
 const clients = [client1, client2]
 module.exports = { clients, io }

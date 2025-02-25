@@ -1,5 +1,5 @@
 async function messagesRefresh(message, client) {
-    console.log(client.user.username + message.content)
+    // console.log(client.user.username + ' ' + message.content)
 }
 
 module.exports = [{

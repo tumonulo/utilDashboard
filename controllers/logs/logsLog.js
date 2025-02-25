@@ -11,17 +11,17 @@ module.exports = async function logsLog(req, res) {
 
     const logs = data.logs
 
-    const newLog = { newColor, message }
+    const newLog = { color: newColor, message }
         
     logs.unshift(newLog)
         
-    if (logs.length > 10) {
-        logs.splice(10)
+    if (logs.length > 25) {
+        logs.splice(25)
     }
 
-    await data.save()
+    console.log(message[newColor] || message)
 
-    console.log(message.newColor)
+    await data.save()
 
     res.json({
         'success': true,

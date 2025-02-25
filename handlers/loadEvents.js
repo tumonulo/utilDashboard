@@ -1,6 +1,8 @@
 const fs = require('node:fs')
 
+
 module.exports = async function loadEvents(clients) {
+    const { io } = require('../app.js')
 
     for (const client of clients) {
         const folders = fs.readdirSync('./events')
@@ -26,9 +28,9 @@ module.exports = async function loadEvents(clients) {
                                 client.on(event.type, (...args) => event.execute(...args, client))
                             }
                         }
-                        console.log(`[   EVENTS   ]`.underline.green + " --- Cargando  ".green + `  ${event.type}`.green)
+                        io.emit('log', { color: 'green', message: `[   EVENTS   ]` + " --- Cargando  " + `  ${event.type}`})
                     } catch (error) {
-                        console.error(`[   ERROR   ]`.underline.red + ` --- Error al cargar el evento ${file}:`.red, error)
+                        io.emit('log', { color: 'red', message: `[   ERROR   ]` + ` --- Error al cargar el evento ${file}:`, error})
     
                     }    
                 }
