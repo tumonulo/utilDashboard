@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 })
 
 socket.on('log', async (data) => {
-  const { type, message } = data
+  const { color, message } = data
 
   try {
     await fetch('/logs/log', {
@@ -15,7 +15,7 @@ socket.on('log', async (data) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ type, message })
+      body: JSON.stringify({ color, message })
     })
 
     await editConsole()
@@ -36,10 +36,13 @@ async function editConsole() {
       const data = await response.json()
 
       for (const log of data.logs) {
-        logsFullMessage += `<div class="log-entry ${log.type}">[${log.type.toUpperCase()}] ${log.message}</div><br>`
+        const logDiv = document.createElement('div')
+        logDiv.classList.add('log-entry')
+        logDiv.style.color = log.color
+        logDiv.textContent = log.message
+        
+        logDiv.appendChild(consoleContainer)
       }
-
-      consoleContainer.innerHTML = logsFullMessage
     } catch (error) {
       console.error('Error al obtener logs:', error)
     }

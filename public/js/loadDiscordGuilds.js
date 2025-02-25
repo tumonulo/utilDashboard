@@ -30,6 +30,6 @@ async function loadDiscordGuilds() {
             })
         }
     } catch (error) {
-        console.error('Error al cargar los servidores')
+        console.error('Error al cargar los servidores', error)
     }
 }

@@ -20,22 +20,25 @@ const io = new Server(server, {
 })
 
 const { PORT, MONGODB_URL, TOKEN_DISCORD_BOT_1, TOKEN_DISCORD_BOT_2 } = require('./config.js')
-cosnt { loadEvents } = require('./events/loadEvents')
+const loadEvents = require('./handlers/loadEvents.js')
 
 process.on('unhandledRejection', async (reason, promise) => {
   console.log('Unhandled Rejection error at:', promise, 'reason', reason)
   io.emit('log', { type: 'error', message: `Unhandled Rejection error. Reason: ${reason}` })
+  console.log('a')
 })
 
 process.on('uncaughtException', async (err) => {
    console.log('Uncaught Expection', err)
    io.emit('log', { type: 'error', message: `Uncaught Expection ${err}` })
+   console.log('a')
 })
 
 process.on('uncaughtExceptionMonitor', async (err, origin) => {
   console.log('Uncaught Expection Monitor', err, origin)
   io.emit('log', { type: 'error', message: `Uncaught Expection Monitor ${err} ${origin}` })
-})
+  console.log('a')
+}) 
 
 const client1 = new Client({
   intents: [Object.keys(GatewayIntentBits)],
@@ -76,9 +79,9 @@ app.use((req, res) => {
 })
 
 const clients = [client1, client2]
-module.exports = clients
+module.exports = { clients, io }
 
-const startTime = Date.now();
+const startTime = Date.now()
 Promise.all([
   server.listen(PORT),
   mongoose.connect(MONGODB_URL || '', {
@@ -91,19 +94,19 @@ Promise.all([
     loadEvents(clients)
     const elapsedTime = Date.now() - startTime;
     const elapsedTimeStr = `${elapsedTime} ms`
-    io.emit('log', { type: 'info', message: `
-      ╔════════════════════════════════════╗╔════════════════════════════════════╗
-      ║          SERVER LISTENING          ║║        DISCORD BOT CONNECTED       ║
-      ╚════════════════════════════════════╝╚════════════════════════════════════╝
-      Localhost: http://localhost:${PORT}       Discord Bot Name: ${client.user.username}
-      Time Until Initialize: ${elapsedTimeStr.padEnd(15)} Discord Bot ID: ${client.user.id}
+    io.emit('log', { color: 'green', message: `
+      ╔════════════════════════════════════╗
+      ║          SERVER LISTENING          ║
+      ╚════════════════════════════════════╝
+      Localhost: http://localhost:${PORT}
+      Time Until Initialize: ${elapsedTimeStr.padEnd(15)}
       ` })
-
   }).catch(error => {
-    io.emit('error', { type: 'info', message: `
+    io.emit('log', { color: 'red', message: `
       ╔═════════════════════════════════════╗
       ║          CONNECTION ERROR           ║
       ╚═════════════════════════════════════╝
       Details: ${error.message}
     ` })
+    console.log('Error:', error)
 })

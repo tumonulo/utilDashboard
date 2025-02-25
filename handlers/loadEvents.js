@@ -9,7 +9,7 @@ module.exports = async function loadEvents(clients) {
             const files = fs.readdirSync(`./events/${folder}`).filter((file) => file.endsWith(".js"))
     
             for (const file of files) {
-                const events = require(`./events/${folder}/${file}`)
+                const events = require(`../events/${folder}/${file}`)
 
                 for (const event of events) {
                     try {

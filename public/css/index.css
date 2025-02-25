@@ -34,9 +34,9 @@ body {
     overflow-y: auto;
 }
 
-.log-entry.error { border-color: #ff4d4d; color: #ff4d4d; }
-.log-entry.warning { border-color: #ffcc00; color: #ffcc00; }
-.log-entry.info { border-color: #4d94ff; color: #4d94ff; }
+.log-entry {
+    font-size: 10px;
+}
 
 /* Sección de Aplicaciones */
 .app-section {
