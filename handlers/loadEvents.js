@@ -6,10 +6,10 @@ module.exports = async function loadEvents(clients) {
         const folders = fs.readdirSync('./events')
 
         for (const folder of folders) {
-            const files = fs.readdirSync(`./Eventos/${folder}`).filter((file) => file.endsWith(".js"))
+            const files = fs.readdirSync(`./events/${folder}`).filter((file) => file.endsWith(".js"))
     
             for (const file of files) {
-                const event = require(`../Eventos/${folder}/${file}`)
+                const event = require(`./events/${folder}/${file}`)
     
                 if (event.rest) {
                     if (event.once) {
