@@ -14,7 +14,7 @@ module.exports = async function loadEvents(clients) {
     
                     if (event.rest) {
                         if (event.once) {
-                            client.rest.once(event.type, (...args9888) => event.execute(...args, client))
+                            client.rest.once(event.type, (...args) => event.execute(...args, client))
                         } else {
                             client.rest.on(event.type, (...args) => event.execute(...args, client))
                         }
