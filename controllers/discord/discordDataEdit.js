@@ -1,6 +1,6 @@
 const schema = require('../../schemas/discordSchema.js')
 
-module.exports = async function clientEdit(req, res) {
+module.exports = async function discordDataEdit(req, res) {
     const clients = require('../../app.js')
 
     const clientsIDs = clients.map(client => client.user.id)

@@ -19,11 +19,7 @@ const io = new Server(server, {
   },
 })
 
-require('dotenv').config()
-const PORT = process.env.PORT || 8080
-const MONGODB_URL = process.env.MONGODB_URL
-const TOKEN_DISCORD_BOT_1 = process.env.TOKEN_DISCORD_BOT_1
-const TOKEN_DISCORD_BOT_2 = process.env.TOKEN_DISCORD_BOT_2
+const { PORT, MONGODB_URL, TOKEN_DISCORD_BOT_1, TOKEN_DISCORD_BOT_2 } = require('./config.js')
 
 process.on('unhandledRejection', async (reason, promise) => {
   console.log('Unhandled Rejection error at:', promise, 'reason', reason)

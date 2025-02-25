@@ -2,7 +2,7 @@ const { ChannelType } = require('discord.js')
 
 const schema = require('../../schemas/discordSchema.js')
 
-module.exports = async function discordGuilds(req, res) {
+module.exports = async function discordGuildData(req, res) {
     const clients = require('../../app.js')
     const data = await schema.findOne()
     const clientID = data.clients.find(client => client.selected === true).id
@@ -14,7 +14,6 @@ module.exports = async function discordGuilds(req, res) {
     let categories = []
     let channels = []
 
-    // Obtener todas las categorías
     try {
         const fetchedCategories = await guild.channels.fetch({ type: ChannelType.GuildCategory })
         fetchedCategories.forEach(category => {
@@ -24,13 +23,12 @@ module.exports = async function discordGuilds(req, res) {
                 'position': category.position
             })
         })
-        categories.sort((a, b) => a.position - b.position)  // Ordenar por 'position' de las categorías
+        categories.sort((a, b) => a.position - b.position)
     } catch (error) {
         console.error('Error al obtener categorías:', error)
         return res.status(500).json({ error: 'Error al obtener categorías' })
     }
 
-    // Obtener todos los canales de texto
     try {
         const fetchedChannels = await guild.channels.fetch({ type: ChannelType.GuildText })
         fetchedChannels.forEach(channel => {
@@ -39,21 +37,19 @@ module.exports = async function discordGuilds(req, res) {
                 'name': channel.name,
                 'type': channel.type,
                 'position': channel.position,
-                'category': channel.parent ? channel.parent.id : null // Relacionar canal con su categoría
+                'category': channel.parent ? channel.parent.id : null
             })
         })
 
-        // Ordenar los canales por 'position' y asignarlos a la categoría correspondiente
-        channels.sort((a, b) => a.position - b.position) // Ordenar todos los canales por 'position'
+        channels.sort((a, b) => a.position - b.position)
 
-        // Asignar canales a sus categorías
         categories = categories.map(category => {
             const categoryChannels = channels.filter(channel => channel.category === category.id)
-            categoryChannels.sort((a, b) => a.position - b.position) // Ordenar los canales dentro de la categoría
+            categoryChannels.sort((a, b) => a.position - b.position)
 
             return {
                 ...category,
-                channels: categoryChannels // Agregamos los canales ordenados a cada categoría
+                channels: categoryChannels
             }
         })
     } catch (error) {
@@ -61,22 +57,19 @@ module.exports = async function discordGuilds(req, res) {
         return res.status(500).json({ error: 'Error al obtener canales' })
     }
 
-    // Obtener otros datos del servidor
     const id = guild.id
     const name = guild.name
-    const banner = guild.bannerURL() || '' // Si no hay banner, evitar 'null' o 'undefined'
+    const banner = guild.bannerURL() || ''
     const boosts = guild.premiumSubscriptionCount || 0
     const totalMembers = guild.memberCount || 0
     const members = await guild.members.fetch({ withPresences: true })
 
-    // Filtrar miembros activos
     const activeMembers = members.filter(member =>
       member.presence?.status === 'online' ||
       member.presence?.status === 'dnd' ||
       member.presence?.status === 'idle'
     )
 
-    // Verificar que todos los datos están bien formados
     console.log({
         'id': id,
         'name': name,
@@ -86,7 +79,6 @@ module.exports = async function discordGuilds(req, res) {
         'categories': categories
     })
 
-    // Enviar la respuesta ordenada
     res.json({
         'id': id,
         'name': name,

@@ -1,6 +1,6 @@
 const schema = require('../../schemas/discordSchema.js')
 
-module.exports = async function discordGuilds(req, res) {
+module.exports = async function discordClientData(req, res) {
     const clients = require('../../app.js')
 
     const data = await schema.findOne()
