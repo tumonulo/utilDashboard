@@ -6,9 +6,13 @@ router.get('/games', (req, res) => {
 
 })
 
-router.get('/games/list', gamesList)
+router.get('/games/list', (req, res) => {
 
-router.get('/games/:game', gamesGame)
+})
+
+router.get('/games/:game', (req, res) => {
+
+})
 
 
 module.exports = router

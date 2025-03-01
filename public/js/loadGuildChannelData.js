@@ -2,22 +2,22 @@ const messageHeaderChannel = document.querySelector('.message-header-channel')
 const messagesDiv = document.querySelector('.messages')
 
 window.addEventListener('DOMContentLoaded', async () => {
-    await loadChannels()
+    await loadGuildChannelData()
 })
 
-async function loadChannels() {
+async function loadGuildChannelData() {
     try {
         const pathSplited = window.location.pathname.split('/')
         const guildID = pathSplited[2]
         const channelID = pathSplited[3]
 
         const response = await fetch(`/discord/${guildID}/${channelID}/data`)
-        const data = await response.json()
+        const channel = await response.json()
 
 
-        messageHeaderChannel.textContent = data.channel.name
+        messageHeaderChannel.textContent = channel.name
 
-        for (const [id, message] of data.messages) {
+        for (const message of channel.messages) {
             const messageDiv = document.createElement('div')
             messageDiv.classList.add('message')
             messageDiv.textContent = message.content

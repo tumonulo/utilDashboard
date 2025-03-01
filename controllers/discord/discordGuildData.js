@@ -14,48 +14,37 @@ module.exports = async function discordGuildData(req, res) {
     let categories = []
     let channels = []
 
-    try {
-        const fetchedCategories = await guild.channels.fetch({ type: ChannelType.GuildCategory })
-        fetchedCategories.forEach(category => {
-            categories.push({
-                'id': category.id,
-                'name': category.name,
-                'position': category.position
-            })
+    const fetchedCategories = await guild.channels.fetch()
+    const fetchedCategoriesType = fetchedCategories.filter(channel => channel.type === ChannelType.GuildCategory)
+    fetchedCategoriesType.forEach(category => {
+        categories.push({
+            'id': category.id,
+            'name': category.name,
+            'position': category.position
         })
-        categories.sort((a, b) => a.position - b.position)
-    } catch (error) {
-        console.error('Error al obtener categorías:', error)
-        return res.status(500).json({ error: 'Error al obtener categorías' })
-    }
+    })
+    categories.sort((a, b) => a.position - b.position)
 
-    try {
-        const fetchedChannels = await guild.channels.fetch({ type: ChannelType.GuildText })
-        fetchedChannels.forEach(channel => {
+    const fetchedChannels = await guild.channels.fetch();
+    fetchedChannels.forEach(channel => {
+        if (channel.type === ChannelType.GuildText) {
             channels.push({
                 'id': channel.id,
                 'name': channel.name,
                 'type': channel.type,
                 'position': channel.position,
-                'category': channel.parent ? channel.parent.id : null
+                'category': channel.parentId || null
             })
-        })
+        }
+    })
+    
+    channels.sort((a, b) => a.position - b.position)
 
-        channels.sort((a, b) => a.position - b.position)
-
-        categories = categories.map(category => {
-            const categoryChannels = channels.filter(channel => channel.category === category.id)
-            categoryChannels.sort((a, b) => a.position - b.position)
-
-            return {
-                ...category,
-                channels: categoryChannels
-            }
-        })
-    } catch (error) {
-        console.error('Error al obtener canales:', error)
-        return res.status(500).json({ error: 'Error al obtener canales' })
-    }
+    categories.forEach(category => {
+        category.channels = channels.filter(channel => channel.category === category.id)
+    })
+    
+    categories.sort((a, b) => a.position - b.position)  
 
     const id = guild.id
     const name = guild.name
@@ -69,15 +58,6 @@ module.exports = async function discordGuildData(req, res) {
       member.presence?.status === 'dnd' ||
       member.presence?.status === 'idle'
     )
-
-    console.log({
-        'id': id,
-        'name': name,
-        'banner': banner,
-        'boosts': boosts,
-        'members': { total: totalMembers, active: activeMembers.size },
-        'categories': categories
-    })
 
     res.json({
         'id': id,

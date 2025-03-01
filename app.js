@@ -24,17 +24,17 @@ const loadEvents = require('./handlers/loadEvents.js')
 
 process.on('unhandledRejection', async (reason, promise) => {
   console.log('Unhandled Rejection error at:', promise, 'reason', reason)
-  io.emit('log', { type: 'error', message: `Unhandled Rejection error. Reason: ${reason}` })
+  io.emit('log', { color: 'red', message: `Unhandled Rejection error. Reason: ${reason}` })
 })
 
 process.on('uncaughtException', async (err) => {
    console.log('Uncaught Expection', err)
-   io.emit('log', { type: 'error', message: `Uncaught Expection ${err}` })
+   io.emit('log', { color: 'red', message: `Uncaught Expection ${err}` })
 })
 
 process.on('uncaughtExceptionMonitor', async (err, origin) => {
   console.log('Uncaught Expection Monitor', err, origin)
-  io.emit('log', { type: 'error', message: `Uncaught Expection Monitor ${err} ${origin}` })
+  io.emit('log', { color: 'red', message: `Uncaught Expection Monitor ${err} ${origin}` })
 }) 
 
 const client1 = new Client({
@@ -79,7 +79,6 @@ io.on('connection', socket => {
   io.emit('log', { color: 'blue', message: `Nuevo cliente conectado` })
 })
 
-
 const clients = [client1, client2]
 module.exports = { clients, io }
 
@@ -103,6 +102,7 @@ Promise.all([
       Localhost: http://localhost:${PORT}
       Time Until Initialize: ${elapsedTimeStr.padEnd(15)}
       ` })
+      io.emit('log', { color: 'red', message: `check` })
   }).catch(error => {
     io.emit('log', { color: 'red', message: `
       ╔═════════════════════════════════════╗
@@ -111,4 +111,4 @@ Promise.all([
       Details: ${error.message}
     ` })
     console.log('Error:', error)
-})
+})  

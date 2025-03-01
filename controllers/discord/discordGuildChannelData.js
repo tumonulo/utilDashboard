@@ -1,3 +1,5 @@
+const { ChannelType } = require('discord.js')
+
 const schema = require('../../schemas/discordSchema.js')
 
 module.exports = async function discordGuildChannelData(req, res) {
@@ -12,11 +14,29 @@ module.exports = async function discordGuildChannelData(req, res) {
     const channelID = req.params.channelID
     const channel = guild.channels.cache.get(channelID)
 
+    if (channel.type !== ChannelType.GuildText) {
+        return res.status(400).json({ error: 'El canal debe ser de tipo texto' })
+    }
+
     const fetchedMessages = await channel.messages.fetch({ limit: 100 })
-    const messages = fetchedMessages ? Object.entries(fetchedMessages).sort((a, b) => a.createdTimestamp - b.createdTimestamp) : [{ id: 'no-messages', content: 'No hay mensajes en este canal.', author: { username: 'Sistema' }, createdTimestamp: Date.now() }]
+
+    const messages = fetchedMessages
+        .sort((a, b) => a.createdTimestamp - b.createdTimestamp)
+        .map(message => ({
+            id: message.id,
+            content: message.content,
+            author: { username: message.author.username, avatar: message.author.avatarURL() },
+            createdTimestamp: message.createdTimestamp
+        }))
 
     res.json({
-        'channel': { 'id': channel.id, 'name': channel.name },
-        'messages': messages
+        id: channel.id,
+        name: channel.name,
+        messages: messages.length > 0 ? messages : [{ 
+             id: 'no-messages', 
+            content: 'No hay mensajes en este canal.', 
+            author: 'Sistema', 
+            createdTimestamp: Date.now() 
+        }]
     })
 }
