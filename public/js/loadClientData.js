@@ -1,6 +1,10 @@
 const guildSidebar = document.querySelector('.guild-sidebar')
 
 window.addEventListener('DOMContentLoaded', async () => {
+    const condition = window.location.pathname === '/discord'
+
+    if (!condition) return
+
     await loadClientData()
 })
 
@@ -26,7 +30,7 @@ async function loadClientData() {
             guildSidebar.appendChild(guildIcon)
 
             guildIcon.addEventListener('click', () => {
-                window.location.pathname = `/discord/${guild.id}`
+            window.history.pushState({ guildID: guild.id }, '', `/discord/${guild.id}`)
             })
         }
     } catch (error) {

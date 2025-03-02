@@ -8,32 +8,18 @@ const guildData = require('../controllers/discord/discordGuildData.js')
 const guildChannelData = require('../controllers/discord/discordGuildChannelData.js')
 
 
-
-router.get('/', (req, res) => {
-    res.sendFile(process.cwd() + '/public/html/discord.html')
-})
-
 router.get('/data', data)
 
 router.patch('/data/edit', dataEdit)
 
-
 router.get('/client/data', clientData)
  
-
-router.get('/:guildID', (req, res) => {
-    res.sendFile(process.cwd() + '/public/html/discordGuild.html')
-})
-
 router.get('/:guildID/data', guildData)
-
-
-router.get('/:guildID/:channelID', (req, res) => {
-    res.sendFile(process.cwd() + '/public/html/discordGuildChannel.html')
-})
 
 router.get('/:guildID/:channelID/data', guildChannelData)
 
-
+router.get(/^\/(\d+)?(\/\d+)?$/, (req, res) => {
+    res.sendFile(process.cwd() + '/public/html/discord.html')
+})
 
 module.exports = router

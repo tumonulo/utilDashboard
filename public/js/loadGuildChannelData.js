@@ -2,6 +2,10 @@ const messageHeaderChannel = document.querySelector('.message-header-channel')
 const messagesDiv = document.querySelector('.messages')
 
 window.addEventListener('DOMContentLoaded', async () => {
+    const condition = window.location.pathname.split('/')[3]
+    
+    if (!condition) return
+
     await loadGuildChannelData()
 })
 
