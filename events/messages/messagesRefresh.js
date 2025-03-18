@@ -1,5 +1,7 @@
 async function messagesRefresh(message, client) {
     // console.log(client.user.username + ' ' + message.content)
+
+    // io.emit('messagesRefresh', 'datos')
 }
 
 module.exports = [{
